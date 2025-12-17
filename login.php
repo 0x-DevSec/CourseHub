@@ -1,3 +1,32 @@
+<?php
+  include("functions.php");
+
+  if($_SERVER['REQUEST_METHOD']== 'POST'){
+     $email = $_POST['email'];
+     $password = $_POST['password'];
+
+     $query = "SELECT * FROM users WHERE email = '$email' && password = '$password'";
+     $result = mysqli_query($connexion,$query);
+
+    if(mysqli_num_rows($result) > 0)
+    {
+      // get associative array
+      $row = mysqli_fetch_assoc($result);
+      
+      // save data in a session
+      $_SESSION['user_information'] = $row;
+
+      header("Location: profile.php");
+    }
+    else {
+
+        $error = "incorrect email or password";
+
+    }
+
+
+  }
+ ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -36,15 +65,22 @@
             </div>
 
             <!-- Login Form (Design Only) -->
-            <form>
+            <form method="POST">
+            <?php if (!empty($error)) : ?>
+              <div class="alert alert-danger alert-dismissible fade show" role="alert">
+              <?php echo htmlspecialchars($error); ?>
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            <?php endif; ?>
+
               <div class="mb-3">
                 <label class="form-label">Email Address</label>
-                <input type="email" class="form-control" placeholder="Enter your email">
+                <input type="email" class="form-control" placeholder="Enter your email" name="email">
               </div>
 
               <div class="mb-3">
                 <label class="form-label">Password</label>
-                <input type="password" class="form-control" placeholder="Enter your password">
+                <input type="password" class="form-control" placeholder="Enter your password" name="password">
               </div>
 
               <div class="d-flex justify-content-between align-items-center mb-3">
@@ -58,7 +94,7 @@
               </div>
 
               <div class="d-grid mb-3">
-                <button type="button" class="btn btn-primary btn-lg">Login</button>
+                <button type="submit" class="btn btn-primary btn-lg">Login</button>
               </div>
 
               <div class="text-center">
