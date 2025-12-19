@@ -1,3 +1,26 @@
+<?php
+  include "functions.php";
+  if (isset($_GET['id']))
+  {
+    $id = $_GET['id'];
+    $sql = "SELECT * FROM courses WHERE id = $id";
+    $query_result = mysqli_query($connexion,$sql);
+    $row = mysqli_fetch_assoc($query_result);
+  }
+
+  if ($_SERVER['REQUEST_METHOD'] == 'POST')
+  {
+    $_newtitle = mysqli_real_escape_string($connexion,$_POST['title']);
+    $newdes = mysqli_real_escape_string($connexion,$_POST['desc']);
+    $newlevel = mysqli_real_escape_string($connexion,$_POST['level']);
+
+    $update = "UPDATE courses SET title = '$_newtitle' , description = '$newdes' , level = '$newlevel' WHERE id = $id";
+
+    mysqli_query($connexion,$update);
+    
+    header("location: courses.php");
+  }
+ ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,6 +33,7 @@
 
 <body class="bg-light">
 
+
 <!-- Navbar -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <div class="container-fluid">
@@ -17,7 +41,7 @@
     <ul class="navbar-nav ms-auto">
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-          Admin User
+          <?php echo $_SESSION['user_information']['full_name']?>
         </a>
         <ul class="dropdown-menu dropdown-menu-end">
           <li><a class="dropdown-item" href="profile.php">Profile</a></li>
@@ -62,26 +86,28 @@
         <div class="card-body">
 
           <!-- Form -->
-          <form>
+          <form method="POST">
 
             <div class="mb-3">
               <label class="form-label fw-semibold">Course Title</label>
               <input type="text"
                      class="form-control"
-                     value="PHP for Beginners">
+                     name="title"
+                     value="<?php echo $row['title']; ?>">
             </div>
 
             <div class="mb-3">
               <label class="form-label fw-semibold">Description</label>
-              <textarea class="form-control" rows="4">Learn PHP from scratch with real projects.</textarea>
+              <textarea class="form-control" rows="4" name="desc"><?php echo $row['description']; ?></textarea>
             </div>
 
             <div class="mb-4">
               <label class="form-label fw-semibold">Level</label>
-              <select class="form-select">
-                <option>Débutant</option>
-                <option selected>Intermédiaire</option>
-                <option>Avancé</option>
+              <select name="level" class="form-select">
+                <option value="">Choose level</option>
+                <option value="Débutant" if($row['level'] == "Beginner"){ echo "selected";}>Débutant</option>
+                <option value="Intermédiaire" if($row['level'] == "Intermediate"){ echo "selected";}>Intermédiaire</option>
+                <option value="Avancé" if($row['level'] == "Advanced"){ echo "selected";} >Avancé</option>
               </select>
             </div>
 
@@ -90,7 +116,7 @@
                 <i class="bi bi-arrow-left"></i> Cancel
               </a>
 
-              <button type="button" class="btn btn-warning">
+              <button type="submit" class="btn btn-warning">
                 <i class="bi bi-save"></i> Update Course
               </button>
             </div>
