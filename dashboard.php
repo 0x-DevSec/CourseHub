@@ -5,6 +5,20 @@
    {
     header("Location: login.php");
    }
+    $sql = "
+    SELECT 
+      (SELECT COUNT(*) FROM courses) AS total_courses,
+      (SELECT COUNT(*) FROM users) AS total_users,
+      (SELECT COUNT(*) FROM sections) AS total_sections
+    ";
+
+      $result = mysqli_query($connexion, $sql);
+      $data = mysqli_fetch_assoc($result);
+
+      $totalCourses = $data['total_courses'];
+      $totalUsers = $data['total_users'];
+      $_totalsections = $data['total_sections'];
+
  ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -45,7 +59,7 @@
         <li class="nav-item"><a class="nav-link active" href="#"><i class="bi bi-speedometer2"></i> Dashboard</a></li>
         <li class="nav-item"><a class="nav-link" href="courses.php"><i class="bi bi-book"></i> Courses</a></li>
         <li class="nav-item"><a class="nav-link" href="#"><i class="bi bi-layers"></i> Sections</a></li>
-        <li class="nav-item"><a class="nav-link" href="#"><i class="bi bi-people"></i> Users</a></li>
+        <li class="nav-item"><a class="nav-link" href="users.php"><i class="bi bi-people"></i> Users</a></li>
 
       </ul>
     </aside>
@@ -60,7 +74,7 @@
           <div class="card shadow-sm">
             <div class="card-body">
               <h6 class="text-muted">Total Courses</h6>
-              <h3 class="fw-bold">24</h3>
+              <h3 class="fw-bold"><?= $totalCourses?></h3>
             </div>
           </div>
         </div>
@@ -68,7 +82,7 @@
           <div class="card shadow-sm">
             <div class="card-body">
               <h6 class="text-muted">Total Users</h6>
-              <h3 class="fw-bold">312</h3>
+              <h3 class="fw-bold"><?= $totalUsers?></h3>
             </div>
           </div>
         </div>
@@ -76,47 +90,12 @@
           <div class="card shadow-sm">
             <div class="card-body">
               <h6 class="text-muted">Total Sections</h6>
-              <h3 class="fw-bold">128</h3>
+              <h3 class="fw-bold"><?= $_totalsections?></h3>
             </div>
           </div>
         </div>
       </div>
-
-      <!-- Table -->
-      <div class="card shadow-sm">
-        <div class="card-header fw-semibold">Recent Courses</div>
-        <div class="card-body">
-          <table class="table table-striped">
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>Course Title</th>
-                <th>Sections</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>1</td>
-                <td>PHP for Beginners</td>
-                <td>12</td>
-                <td>
-                  <button class="btn btn-sm btn-primary">View</button>
-                  <button class="btn btn-sm btn-warning">Edit</button>
-                </td>
-              </tr>
-              <tr>
-                <td>2</td>
-                <td>Laravel Essentials</td>
-                <td>9</td>
-                <td>
-                  <button class="btn btn-sm btn-primary">View</button>
-                  <button class="btn btn-sm btn-warning">Edit</button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+        
       </div>
 
     </main>

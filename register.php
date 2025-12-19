@@ -1,8 +1,5 @@
 <?php
-
-// connect to database
-
-include("database.php");
+  include("functions.php");  
 
   $name = '';
   $email = '';
@@ -14,18 +11,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $password = $_POST['password'];
   $confirm_password = $_POST['confirm_password'];
 
+
   if (empty($name) || empty($email) || empty($password) || empty($confirm_password)) {
-        $errors = "All fields are required.";
+        $errors[]= "All fields are required.";
     }
 
  
     if ($password !== $confirm_password) {
-        $errors = "Passwords do not match.";
+        $errors[] = "Passwords do not match.";
     }
 
   
     if (strlen($password) < 8) {
-        $errors = "Password must be at least 8 characters long.";
+        $errors[]= "Password must be at least 8 characters long.";
     }
 
     
@@ -33,7 +31,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // send data to database
         $sql = "INSERT into users (full_name,email,password) VALUES ('$name','$email','$password')";
         mysqli_query($connexion,$sql);
-
          $name = '';
          $email = '';
 

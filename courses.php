@@ -44,7 +44,7 @@
           <a class="nav-link" href="#"><i class="bi bi-layers"></i> Sections</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#"><i class="bi bi-people"></i> Users</a>
+          <a class="nav-link" href="users.php"><i class="bi bi-people"></i> Users</a>
         </li>
       </ul>
     </aside>

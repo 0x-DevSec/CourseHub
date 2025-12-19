@@ -1,3 +1,6 @@
+<?php
+  include "functions.php";
+ ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -44,8 +47,15 @@
       </button>
       <div class="collapse navbar-collapse" id="navMenu">
         <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-          <li class="nav-item"><a class="nav-link" href="login.php">Login</a></li>
-          <li class="nav-item"><a class="nav-link" href="register.php">Register</a></li>
+          <?php if(empty($_SESSION['user_information'])):?>
+              <li class="nav-item"><a class="nav-link" href="login.php">Login</a></li>
+              <li class="nav-item"><a class="nav-link" href="register.php">Register</a></li>
+          <?php else:?>
+
+              <li class="nav-item"><a class="nav-link" href="dashboard.php">Dashboard</a></li>
+              <li class="nav-item"><a class="nav-link" href="logout.php">Logout</a></li>
+           <?php endif;?>
+
         </ul>
       </div>
     </div>
@@ -62,8 +72,14 @@
               CourseHub is a modern Learning Management System to manage courses, enrollments, and learning analytics.
             </p>
             <div class="d-flex justify-content-center gap-3">
-              <a href="register.php" class="btn btn-light btn-lg">Get Started</a>
-              <a href="login.php" class="btn btn-outline-light btn-lg">Login</a>
+              <?php if(empty($_SESSION['user_information'])):?>
+                  <a href="register.php" class="btn btn-light btn-lg">Get Started</a>
+                  <a href="login.php" class="btn btn-outline-light btn-lg">Login</a>
+              <?php else:?>
+                  <a href="dashboard.php" class="btn btn-light btn-lg">Go to Dashboard</a>
+              <?php endif; ?>
+              
+
             </div>
           </div>
         </div>
