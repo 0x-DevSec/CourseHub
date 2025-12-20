@@ -1,5 +1,6 @@
 <?php
   include("functions.php");
+  check_login();
  ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -40,9 +41,16 @@
         <li class="nav-item">
           <a class="nav-link active" href="courses.php"><i class="bi bi-book"></i> Courses</a>
         </li>
-        <li class="nav-item">
+        <!-- <li class="nav-item">
           <a class="nav-link" href="#"><i class="bi bi-layers"></i> Sections</a>
+        </li> -->
+
+        <li class="nav-item">
+          <a class="nav-link" href="user_courses.php">
+            <i class="bi bi-collection-play"></i> My Courses
+          </a>
         </li>
+
         <li class="nav-item">
           <a class="nav-link" href="users.php"><i class="bi bi-people"></i> Users</a>
         </li>
@@ -84,6 +92,9 @@
                 <td><span class="badge bg-primary"><?php echo $row['level'];?></span></td>
                 <td><?php echo $row['description'];?></td>
                 <td class="text-center">
+                  <a href="enroll.php?course_id=<?php echo $row['id']; ?>" class="btn btn-sm btn-success">
+                    <i class="bi bi-plus-circle"></i> Enroll
+                  </a>
                   <a href="edit_courses.php?id=<?php echo $row['id'];?>" class="btn btn-sm btn-warning">
                     <i class="bi bi-pencil"></i> Edit
                   </a>

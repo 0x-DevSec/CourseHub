@@ -1,5 +1,6 @@
 <?php
 include "functions.php";
+check_login();
 
 $sql = "SELECT * FROM users";
 $result = mysqli_query($connexion, $sql);
@@ -56,6 +57,7 @@ if (!$result) {
           </a>
         </li>
 
+
         <li class="nav-item">
           <a class="nav-link" href="courses.php">
             <i class="bi bi-book"></i> Courses
@@ -67,6 +69,12 @@ if (!$result) {
             <i class="bi bi-layers"></i> Sections
           </a>
         </li> -->
+
+         <li class="nav-item">
+          <a class="nav-link" href="user_courses.php">
+            <i class="bi bi-collection-play"></i> My Courses
+          </a>
+        </li>
 
         <li class="nav-item">
           <a class="nav-link active" href="users.php">

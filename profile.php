@@ -1,5 +1,6 @@
 <?php
   include "functions.php";
+  check_login();
 
   // Generate avatar from user's full name
   $fullName = $_SESSION['user_information']['full_name'];

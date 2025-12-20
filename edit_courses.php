@@ -1,5 +1,6 @@
 <?php
   include "functions.php";
+  check_login();
   if (isset($_GET['id']))
   {
     $id = $_GET['id'];

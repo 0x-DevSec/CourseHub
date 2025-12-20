@@ -16,7 +16,7 @@
       // save data in a session
       $_SESSION['user_information'] = $row;
 
-      header("Location: profile.php");
+      header("Location: dashboard.php");
     }
     else {
 

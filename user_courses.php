@@ -1,15 +1,24 @@
 <?php
-  include "functions.php";
+include "functions.php";
+check_login();
 
-  if (empty($_SESSION)) {
-    header("Location: login.php");
-  }
+$user_id = $_SESSION['user_information']['id'];
+
+/* Get courses the user is enrolled in */
+$sql = "
+    SELECT courses.*
+    FROM enrollments
+    INNER JOIN courses ON enrollments.course_id = courses.id
+    WHERE enrollments.user_id = $user_id
+";
+
+$result = mysqli_query($connexion, $sql);
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>CourseHub – Add User</title>
+  <title>CourseHub – My Courses</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <!-- Bootstrap -->
@@ -59,13 +68,13 @@
         </li>
 
         <li class="nav-item">
-          <a class="nav-link" href="#">
-            <i class="bi bi-layers"></i> Sections
+          <a class="nav-link active" href="user_courses.php">
+            <i class="bi bi-collection-play"></i> My Courses
           </a>
         </li>
 
         <li class="nav-item">
-          <a class="nav-link active" href="users.php">
+          <a class="nav-link" href="users.php">
             <i class="bi bi-people"></i> Users
           </a>
         </li>
@@ -77,62 +86,58 @@
     <main class="col-md-10 p-4">
 
       <!-- Page Header -->
-      <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2>Add New User</h2>
-        <a href="users.php" class="btn btn-secondary">
-          <i class="bi bi-arrow-left"></i> Back
-        </a>
+      <div class="mb-4">
+        <h2 class="mb-1">My Courses</h2>
+        <p class="text-muted">Courses you are currently enrolled in</p>
       </div>
 
-      <!-- Add User Form -->
-      <div class="card shadow-sm">
-        <div class="card-header fw-semibold">
-          User Information
-        </div>
+      <!-- Courses Grid -->
+      <div class="row g-4">
 
-        <div class="card-body">
-          <form action="#" method="post" enctype="multipart/form-data">
+        <?php if (mysqli_num_rows($result) > 0): ?>
+          <?php while ($course = mysqli_fetch_assoc($result)): ?>
 
-            <div class="row g-3">
+            <div class="col-md-4">
+              <div class="card shadow-sm h-100">
 
-              <!-- Full Name -->
-              <div class="col-md-6">
-                <label class="form-label">Full Name</label>
-                <input type="text" class="form-control" placeholder="Enter full name">
+                <img src="https://picsum.photos/600/350?random=<?php echo $course['id']; ?>"
+                     class="card-img-top" alt="Course Image">
+
+                <div class="card-body">
+                  <h5 class="card-title">
+                    <?php echo $course['title']; ?>
+                  </h5>
+
+                  <p class="card-text text-muted">
+                    <?php echo $course['description']; ?>
+                  </p>
+
+                  <span class="badge bg-primary">
+                    <?php echo $course['level']; ?>
+                  </span>
+                </div>
+
+                <div class="card-footer bg-white border-0">
+                  <a href="course_details.php?id=<?php echo $course['id']; ?>"
+                     class="btn btn-primary w-100">
+                    Continue Learning
+                  </a>
+                </div>
+
               </div>
-
-              <!-- Email -->
-              <div class="col-md-6">
-                <label class="form-label">Email</label>
-                <input type="email" class="form-control" placeholder="Enter email">
-              </div>
-
-              <!-- Password -->
-              <div class="col-md-6">
-                <label class="form-label">Password</label>
-                <input type="password" class="form-control" placeholder="Enter password">
-              </div>
-
-              <!-- Confirm Password -->
-              <div class="col-md-6">
-                <label class="form-label">Confirm Password</label>
-                <input type="password" class="form-control" placeholder="Confirm password">
-              </div>
-
             </div>
 
-            <!-- Buttons -->
-            <div class="mt-4 d-flex justify-content-end gap-2">
-              <button type="reset" class="btn btn-outline-secondary">
-                Reset
-              </button>
-              <button type="submit" class="btn btn-success">
-                <i class="bi bi-check-circle"></i> Create User
-              </button>
-            </div>
+          <?php endwhile; ?>
+        <?php else: ?>
 
-          </form>
-        </div>
+          <div class="col-12">
+            <div class="alert alert-info">
+              You are not enrolled in any course yet.
+            </div>
+          </div>
+
+        <?php endif; ?>
+
       </div>
 
     </main>

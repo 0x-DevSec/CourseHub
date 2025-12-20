@@ -86,9 +86,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             <i class="bi bi-book"></i> Courses
           </a>
         </li>
-        <li class="nav-item">
+        <!-- <li class="nav-item">
           <a class="nav-link" href="#"><i class="bi bi-layers"></i> Sections</a>
-        </li>
+        </li> -->
         <li class="nav-item">
           <a class="nav-link" href="#"><i class="bi bi-people"></i> Users</a>
         </li>

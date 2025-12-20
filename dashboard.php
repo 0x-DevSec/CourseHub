@@ -1,10 +1,6 @@
 <?php
    include "functions.php";
-
-   if(empty($_SESSION))
-   {
-    header("Location: login.php");
-   }
+   check_login();
     $sql = "
     SELECT 
       (SELECT COUNT(*) FROM courses) AS total_courses,
@@ -58,7 +54,14 @@
       <ul class="nav nav-pills flex-column gap-2">
         <li class="nav-item"><a class="nav-link active" href="#"><i class="bi bi-speedometer2"></i> Dashboard</a></li>
         <li class="nav-item"><a class="nav-link" href="courses.php"><i class="bi bi-book"></i> Courses</a></li>
-        <li class="nav-item"><a class="nav-link" href="#"><i class="bi bi-layers"></i> Sections</a></li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="user_courses.php">
+            <i class="bi bi-collection-play"></i> My Courses
+          </a>
+        </li>
+
+        <!-- <li class="nav-item"><a class="nav-link" href="#"><i class="bi bi-layers"></i> Sections</a></li> -->
         <li class="nav-item"><a class="nav-link" href="users.php"><i class="bi bi-people"></i> Users</a></li>
 
       </ul>
