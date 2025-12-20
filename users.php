@@ -1,6 +1,14 @@
 <?php
-  include "functions.php";
+include "functions.php";
+
+$sql = "SELECT * FROM users";
+$result = mysqli_query($connexion, $sql);
+
+if (!$result) {
+    die("Query failed: " . mysqli_error($connexion));
+}
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -54,11 +62,11 @@
           </a>
         </li>
 
-        <li class="nav-item">
+        <!-- <li class="nav-item">
           <a class="nav-link" href="#">
             <i class="bi bi-layers"></i> Sections
           </a>
-        </li>
+        </li> -->
 
         <li class="nav-item">
           <a class="nav-link active" href="users.php">
@@ -75,9 +83,6 @@
       <!-- Page Header -->
       <div class="d-flex justify-content-between align-items-center mb-4">
         <h2 class="mb-0">Users</h2>
-        <a class="btn btn-success" href="add_users.php">
-          <i class="bi bi-plus-circle"></i> Add User
-        </a>
       </div>
 
       <!-- Users Table -->
@@ -89,9 +94,9 @@
         <div class="card-body">
           <table class="table table-striped align-middle">
             <thead class="table-light">
+
               <tr>
-                <th>#</th>
-                <th>Image</th>
+                <th>id</th>
                 <th>Full Name</th>
                 <th>Email</th>
                 <th>Created At</th>
@@ -100,53 +105,22 @@
             </thead>
 
             <tbody>
-              <!-- User 1 -->
-              <tr>
-                <td>1</td>
-                <td>
-                  <img src="https://via.placeholder.com/40"
-                       class="rounded-circle border"
-                       width="40"
-                       height="40"
-                       alt="User">
-                </td>
-                <td>John Doe</td>
-                <td>john@example.com</td>
-                <td>2024-03-18</td>
-                <td class="text-end">
-                  <button class="btn btn-sm btn-warning">
-                    <i class="bi bi-pencil-square"></i>
-                  </button>
-                  <button class="btn btn-sm btn-danger">
-                    <i class="bi bi-trash"></i>
-                  </button>
-                </td>
-              </tr>
-
-              <!-- User 2 -->
-              <tr>
-                <td>2</td>
-                <td>
-                  <img src="https://via.placeholder.com/40"
-                       class="rounded-circle border"
-                       width="40"
-                       height="40"
-                       alt="User">
-                </td>
-                <td>Sarah Smith</td>
-                <td>sarah@example.com</td>
-                <td>2024-05-02</td>
-                <td class="text-end">
-                  <button class="btn btn-sm btn-warning">
-                    <i class="bi bi-pencil-square"></i>
-                  </button>
-                  <button class="btn btn-sm btn-danger">
-                    <i class="bi bi-trash"></i>
-                  </button>
-                </td>
-              </tr>
-
-            </tbody>
+                <?php while ($row = mysqli_fetch_assoc($result)) { ?>
+                  <tr>
+                    <td><?= $row['id']; ?></td>
+                    <td><?= $row['full_name']; ?></td>
+                    <td><?= $row['email']; ?></td>
+                    <td><?= $row['created_at']; ?></td>
+                    <td class="text-end">
+                      <a href="delete_user.php?id=<?= $row['id']; ?>" 
+                        class="btn btn-sm btn-danger"
+                        onclick="return confirm('Are you sure you want to delete this user?');">
+                        <i class="bi bi-trash"></i>
+                      </a>
+                    </td>
+                  </tr>
+                <?php } ?>
+             </tbody>
           </table>
         </div>
       </div>
